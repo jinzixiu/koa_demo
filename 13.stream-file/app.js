@@ -7,18 +7,21 @@ const extname = path.extname;
 
 app.use(async function(ctx) {
 
-  const fpath = path.join(__dirname, ctx.path);
-  const fstat = await stat(fpath);
+    console.log(ctx.path)
+    const fpath = path.join(__dirname, ctx.path);
+
+    const fstat = await stat(fpath);
 
     console.log(fpath)
-    
+    console.log(extname(fpath))
 
-  if (fstat.isFile()) {
+    if (fstat.isFile()) {
     ctx.type = extname(fpath);
-    ctx.body = fs.createReadStream(fpath);
-  }
+    ctx.body = fs.createReadStream('../package.json');
+    }
 
 });
+
 
 if (!module.parent) app.listen(6666);
 
@@ -27,6 +30,7 @@ if (!module.parent) app.listen(6666);
  */
 
 function stat(file) {
+
   return new Promise(function(resolve, reject) {
     fs.stat(file, function(err, stat) {
       if (err) {
@@ -36,4 +40,10 @@ function stat(file) {
       }
     });
   });
+
 }
+
+
+
+
+
